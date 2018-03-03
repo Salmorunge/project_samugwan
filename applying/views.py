@@ -12,7 +12,6 @@ from applying.choices import calculate_ministry_score
 import applying.choices
 from operator import itemgetter
 from applying.simulate_overall import simple_overall_simulate
-
 # Create your views here.
 def index(request):
     list=[]
