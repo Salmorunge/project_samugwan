@@ -1,0 +1,26 @@
+{% extends 'applying/base_bootstrap.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ selecteduser.username }} Apply{% endblock %}
+
+{% block body_block %}
+
+<h1>{{ selecteduser.username }} Apply</h1>
+<div>
+    {% if selecteduser.username == user.username %}
+        <form method="post" action=".">
+            {% csrf_token %}
+            {{ form1.as_p }}
+            <input type="submit" value="Update" />
+        </form>
+    {% else %}
+    {{ selecteduser.username }}
+    {% endif %}
+    </div>
+
+    <br>
+    기타 점수 : 면접, 자기소개서 점수를 뺀 다른 점수(자격증,전공,어학 및 실무수습) 점수의 합<br>
+    예 : 관세청은 자격증, 전공, 어학 200점, 실무수습 100점 반영 - 자신이 자격증 항목 점수가 200점이고 실무수습이 99점이라면 200+99 = 299점 입력
+    <div id="apply"></div>
+{% endblock %}

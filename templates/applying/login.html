@@ -1,0 +1,27 @@
+{% extends 'applying/base_bootstrap.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Login
+{% endblock %}
+
+{% block body_block %}
+<h1>Login</h1>
+<form id="login_form" method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    Username: <input type="text" name="username" value="" size="50" />
+    <br />
+    Password: <input type="password" name="password" value="" size="50" />
+    <br />
+    <input type="submit" value="submit" />
+</form>
+<br>
+
+<div>
+    Don't have an account? <a href="{% url 'registration_register' %}">Sign Up</a>
+</div>
+<div>
+    Forgot your password?  <a href="{% url 'registration_password_reset %}">Reset password</a>
+</div>
+
+{% endblock %}

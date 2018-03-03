@@ -1,0 +1,57 @@
+{% extends "applying/base_bootstrap.html" %}
+{% load render_table from django_tables2 %}
+{% block title_block %}
+    Result
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+{% endblock %}
+
+{% block body_block %}
+<div>
+    <br>
+
+<form method="post" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Show" />
+</form>
+</div>
+
+
+
+<div>
+    <br>
+    <ul>
+        <li>TO : {{ dict.ministry_quota }}</li>
+        <li>2차반영비율(배수) : {{ dict.second_exam_ratio }}</li>
+        <li>연수원반영비율(배수): {{ dict.nhi_score_ratio }}    </li>
+    </ul>
+    <br>
+    <table class="table">
+        <tr>
+            <th>이름</th>
+            <th>성별</th>
+            <th>단순합산총점</th>
+            <th>단순합산순위</th>
+            <th>부처지망</th>
+            <th>부처기준총점</th>
+            <th>부처기준순위</th>
+        </tr>
+    {% for user in list %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.total_score }}</td>
+            <td>{{ user.total_rank }}</td>
+            <td>{{ user.preference }}</td>
+            <td>{{ user.ministry_score }}</td>
+            <td>{{ user.rank_by_ministry }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    {% if table %}
+        {% render_table table %}
+    {% else %}
+        exception handling...
+    {% endif %}
+</div>
+{% endblock %}

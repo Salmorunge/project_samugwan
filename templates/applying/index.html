@@ -1,0 +1,36 @@
+{% extends 'applying/base_bootstrap.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    Index
+{% endblock %}
+
+{% block body_block %}
+    <div>
+       <!--
+        <h1>Project SAMUGWAN - Simulator of Applying to Ministries Under the Government, Workable and Needed!</h1>
+        -->
+        <div style="width: 100%; height: 300px; line-height: 300px; text-align: center">
+
+    <img src= "{% static "image/project.samugwan.jpg" %}" style="width: 100%; max-width: 900px; vertical-align:top"/>
+        </div>
+    </div>
+
+    <div>
+        <h1>현재 일행 등록현황: {{ list.0 }} / 139</h1>
+        <!-- Need to Insert tables for general_admin -->
+    </div>
+
+    <div>
+        <h1>현재 재경 등록현황: {{ list.1 }} / 79 </h1>
+       <!-- Need to Insert tables for econ_admin -->
+    </div>
+    <div>
+        <br>
+        베타 버전입니다.
+        <h3> 점수 바꾼 후엔 꼭 다시 부처배치 해주세요!</h3><br>
+        <h3>예상 부처배치는 단순합산점수(1:1 합산 기반) 으로 이루어집니다. 부처기반점수가 아닙니다.</h3><br>
+        <h3>예상 부처배치가 유저일람에서 나오지 않으신다면 예상배치 페이지를 한번 보시고 돌아오시면 정상반영되어 있을 겁니다.</h3><br>
+    </div>
+
+{% endblock %}

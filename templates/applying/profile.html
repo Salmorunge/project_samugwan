@@ -1,0 +1,35 @@
+{% extends 'applying/base_bootstrap.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ selecteduser.username }}님의 점수 변경{% endblock %}
+
+{% block body_block %}
+
+<h1>{{ selecteduser.username }}님의 점수 변경</h1>
+<div>
+    {% if selecteduser.username == user.username %}
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Update" />
+        </form>
+
+        <br>
+        <div>
+            <ul>
+                <li> 단순합산총점 : {{ userprofile.total_score }} </li>
+                <li> 직렬 내 단순합산순위 : {{ userprofile.ranking }} </li>
+            </ul>
+        </div>
+        <div>
+            <br>
+            점수를 바꾼 후에는 꼭 다시 부처배치를 해 주세요.
+        </div>
+    {% else %}
+    {{ selecteduser.username }}
+    {% endif %}
+</div>
+
+    <div id="edit_profile"></div>
+{% endblock %}
