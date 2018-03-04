@@ -17,7 +17,7 @@ class ResultTable(tables.Table):
 
     class Meta:
         #model = UserProfile
-        template_name = 'django_tables2/bootstrap.html'
+        template_name = 'django_tables2/bootstrap-responsive.html'
 
 # Table that
 class ResultByMinistryTable(tables.Table):
@@ -35,7 +35,7 @@ class AppliedDictionaryTable(tables.Table):
         return value
 
 class ApplyingSimulationTable(tables.Table):
-    ministry_name_korean = tables.Column(verbose_name='부처명')
+    ministry_name_korean = tables.Column(verbose_name='부처명', attrs={'td':{'width': '25%'}})
     ministry_quota = tables.Column(verbose_name='TO')
     allocated_samugwan = tables.Column(verbose_name='예상배정자(등수)')
 
@@ -45,6 +45,8 @@ class ApplyingSimulationTable(tables.Table):
             for item in value:
                 string += '  {0},  '.format(item)
             return string
+        else:
+            return string
 
     class Meta:
-        template_name = 'django_tables2/semantic.html'
+        template_name = 'django_tables2/bootstrap-responsive.html'
