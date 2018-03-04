@@ -10,14 +10,12 @@ def simple_overall_simulate(series):
     # intended result : [{... , 'allocated_ministry' : allocated_ministry}
     for item in general_admin_list:
         item['allocated_ministry'] = ''
-    print(general_admin_list)
 
     ministry_general_list = list(Ministry.objects.filter(series_of_class=series).values('ministry_name','ministry_quota'))
     for item in ministry_general_list:
         item['count'] = 0 # intended result :[{'ministry_name':name, 'ministry_quota':quota, 'count':0}, ...]
     print(ministry_general_list)
 
-    # allocate samugwans
     for samugwan in general_admin_list:
         first_ministry = next((item for item in ministry_general_list if item['ministry_name'] == samugwan['prefer_1st']))
         second_ministry = next((item for item in ministry_general_list if item['ministry_name'] == samugwan['prefer_2nd']))
@@ -35,7 +33,7 @@ def simple_overall_simulate(series):
                     third_ministry['count'] += 1
                     samugwan['allocated_ministry'] = samugwan['prefer_3rd']
                 else:
-                    samugwan['allocated_ministry'] = '잔여자'
+                    samugwan['allocated_ministry'] = 'SUR'
         # Update Userprofile's Allocated_ministry
         # first, we have to convert samugwan['allocated_ministry'] into somewhat familiar. ex) 'MPVA' -> '국가보훈처'
         ministry_familiar = ''
@@ -70,6 +68,7 @@ def simple_overall_simulate(series):
             item['ministry_quota'] = Ministry.objects.filter(ministry_name = name[0],series_of_class=series).values_list('ministry_quota', flat=True).get()
         item['allocated_samugwan'] = []
         list_of_dict.append(item)
+        print(list_of_dict)
 
 # Allocating users
     for user in general_admin_list:

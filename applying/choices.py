@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 ministry_name_choices = (
     ('BAI', '감사원'), ('MOEL', '고용노동부'), ('KFTC', '공정거래위원회'), ('MSIT', '과학기술정보통신부'),
     ('KCS', '관세청'), ('MOE', '교육부'), ('MPVA', '국가보훈처'), ('NHRC', '국가인권위원회'), ('OPC', '국무총리실'),
@@ -13,6 +15,8 @@ ministry_name_choices = (
 
 def calculate_ministry_score(userprofile, ministry, other_score):
 
-    ministry_score = userprofile.second_exam_score * ministry.second_exam_ratio + userprofile.nhi_score * ministry.NHI_score_ratio + other_score
+    ministry_score = Decimal(userprofile.second_exam_score * ministry.second_exam_ratio + userprofile.nhi_score * ministry.NHI_score_ratio + other_score)
+    ministry_score = round(ministry_score,2)
+    ministry_score = float(ministry_score)
 
     return ministry_score

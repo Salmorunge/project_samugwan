@@ -23,7 +23,7 @@ def populate():
 
     # nested list : [name, general_admin_quota, econ_admin_quota, second_exam_ratio, NHI_score_ratio]
     # ratios are all correct(need to be checked), but quotas to be revised
-    ministry_list = [['BAI', 4, 4, 3, 1], ['MOEL', 4, 4, 2.5, 1.5], ['KFTC',4, 4, 5, 3], ['MSIT', 4, 4, 3.5, 3.5],
+    ministry_list = [['BAI', 1, 4, 3, 1], ['MOEL', 0, 4, 2.5, 1.5], ['KFTC',0, 4, 5, 3], ['MSIT', 4, 4, 3.5, 3.5],
                      ['KCS', 4,4, 3, 1], ['MOE', 4, 4, 2.5, 2.5], ['MPVA', 4, 4, 3, 3], ['NHRC', 4, 4, 3, 2], ['OPC', 4, 4, 4, 1],
                      ['ACRC', 4, 4, 2.5, 2.5], ['MND', 4, 4, 3, 2], ['NTS', 4,4, 3, 2.5], ['MOLIT', 4, 4, 3, 3], ['FSC', 4, 4, 2.5, 2.5], ['MOSF', 4, 4, 4, 2],
                      ['MAFRA', 4, 4, 3, 3], ['CHA', 4, 4, 3, 2], ['MCST', 4, 4, 3, 2], ['KCC', 4, 4, 3, 2],

@@ -12,6 +12,8 @@ from applying.choices import calculate_ministry_score
 import applying.choices
 from operator import itemgetter
 from applying.simulate_overall import simple_overall_simulate
+from decimal import Decimal
+
 # Create your views here.
 def index(request):
     list=[]
@@ -38,8 +40,11 @@ def register_profile(request):
             # should be categorized with passed_year and series_of_class
             # Get average and standard deviation per each passed_year and series_of_class
             # Updates statistics, too
+            # We use Decimal to avoid precision problems with float type.
 
-            user_profile.total_score = user_profile.second_exam_score + user_profile.nhi_score
+            total_score_deci = Decimal(user_profile.second_exam_score + user_profile.nhi_score)
+            total_score_deci = round(total_score_deci,2)
+            user_profile.total_score = float(total_score_deci)
             user_profile.save()
 
             # Finally, we should calculate a rank of the specific user in each series of class(IMPORTANT!!!).
@@ -79,7 +84,9 @@ def profile(request, username):
             form.save(commit=True)
 
             # Update other_score and total_score
-            userprofile.total_score = userprofile.second_exam_score + userprofile.nhi_score
+            total_score_pre = Decimal(userprofile.second_exam_score + userprofile.nhi_score)
+            total_score_pre = round(total_score_pre,2)
+            userprofile.total_score = float(total_score_pre)
             userprofile.save()
 
             # Next, calculate a rank of the specific user.
@@ -204,7 +211,11 @@ def result_by_ministry(request):
             for key, value in applied_samugwan_list_test.items():
                 dict_test = {}
                 dict_test['name'] = key
-                dict_test['gender'] = value[0]
+                # convert into familiar names
+                if value[0] == 'female':
+                    dict_test['gender'] = '여성'
+                if value[0] == 'male':
+                    dict_test['gender'] = '남성'
                 dict_test['total_score'] = value[1]
                 dict_test['total_rank'] = value[2]
                 dict_test['preference'] = value[3]
@@ -230,7 +241,10 @@ def result_by_ministry(request):
             dict_stat['nhi_score_ratio'] = getattr(
                 Ministry.objects.get(ministry_name=data_ministry_name, series_of_class=data_series_of_class),
                 'NHI_score_ratio')
-            #dict_stat['number of applicants'] = len(dict_list_test)
+            dict_stat['number_of_applicants'] = len(dict_list_test)
+            dict_stat['competition_rate_overall'] = Decimal(dict_stat['ministry_quota']/dict_stat['number_of_applicants'])
+            dict_stat['competition_rate_1st'] = Decimal(UserProfile.objects.filter(prefer_1st=data_ministry_name).count()/dict_stat['number_of_applicants'])
+
             print(dict_stat)
 
             # Render table

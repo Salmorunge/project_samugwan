@@ -4,7 +4,12 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Registration - Step 2</h1>
+    <br>
+    <h1>신규등록 - 점수 등록</h1><br>
+    <div>
+        <span style="color:#808080">점수 등록을 진행합니다. 원점수가 아닌, 표준 점수를 기입해 주세요.</span>
+    </div>
+    <br>
     <form method="post" action="." enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}

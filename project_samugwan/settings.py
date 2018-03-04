@@ -25,7 +25,7 @@ SECRET_KEY = 's+gi%95o746&@q+d5r5xz6#j9@(fsib4p7d=u^z0=m4k7#&ve&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://Salmorunge.pythonanywhere.com',]
+ALLOWED_HOSTS = ['http://salmorunge.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
@@ -122,8 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-STATICFILES_DIRS = [STATIC_DIR, ]
+STATICFILES_DIRS = [STATIC_DIR,]
 STATIC_URL = '/static/'
+
 
 # Settings for Django-Registration-Redux
 LOGIN_REDIRECT_URL = '/applying/'
