@@ -45,7 +45,6 @@ def simple_overall_simulate(series):
                 if samugwan['allocated_ministry'] == item[0]:
                     ministry_familiar = item[1]
 
-
         UserProfile.objects.filter(series_of_class=series, ranking=samugwan['ranking']).update(allocated_ministry=ministry_familiar)
 
 

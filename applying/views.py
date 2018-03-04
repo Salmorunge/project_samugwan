@@ -13,6 +13,7 @@ import applying.choices
 from operator import itemgetter
 from applying.simulate_overall import simple_overall_simulate
 from decimal import Decimal
+from applying.ministry_result import result_ministry_applicants, result_ministry_stats
 
 # Create your views here.
 def index(request):
@@ -152,19 +153,19 @@ def apply(request, username):
 
             # dictionary form : applied_samugwan.{'prefer_1st_user': [gender, total_score_(by ministry criteria),
             #                                                           rank by total score, rank by ministry criteria]}
-            ministry_1st.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 1, ministry_1st_score]})
+            ministry_1st.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 1, userprofile.other_score_1st, ministry_1st_score]})
             ministry_1st.save()
 
             # Update 2nd Min.
             ministry_2nd = Ministry.objects.get_or_create(ministry_name=userprofile.prefer_2nd, series_of_class=userprofile.series_of_class)[0]
             ministry_2nd_score = calculate_ministry_score(userprofile, ministry_2nd, userprofile.other_score_2nd)
-            ministry_2nd.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 2, ministry_2nd_score]})
+            ministry_2nd.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 2, userprofile.other_score_2nd, ministry_2nd_score]})
             ministry_2nd.save()
 
             # Update 3rd Min.
             ministry_3rd = Ministry.objects.get_or_create(ministry_name=userprofile.prefer_3rd, series_of_class=userprofile.series_of_class)[0]
             ministry_3rd_score = calculate_ministry_score(userprofile, ministry_3rd, userprofile.other_score_3rd)
-            ministry_3rd.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 3, ministry_3rd_score]})
+            ministry_3rd.applied_samugwan.update({username:[userprofile.gender,userprofile.total_score,userprofile.ranking, 3, userprofile.other_score_3rd, ministry_3rd_score]})
             ministry_3rd.save()
 
             return redirect('apply', user.username)
@@ -196,10 +197,6 @@ def result_by_ministry(request):
             data = form.cleaned_data
             data_ministry_name = data.get('ministry_name')
             data_series_of_class = data.get('series_of_class')
-            applied_samugwan_list = getattr(
-                Ministry.objects.get(ministry_name=data_ministry_name, series_of_class=data_series_of_class),
-                'applied_samugwan').values()
-            print(applied_samugwan_list)
 
             # make a new list of dictionaries for table
             applied_samugwan_list_test = getattr(
@@ -219,7 +216,8 @@ def result_by_ministry(request):
                 dict_test['total_score'] = value[1]
                 dict_test['total_rank'] = value[2]
                 dict_test['preference'] = value[3]
-                dict_test['ministry_score'] = value[4]
+                dict_test['other_score'] = value[4]
+                dict_test['ministry_score'] = value[5]
                 dict_list_test.append(dict_test)
 
             # Sorting, must be reversed(descending order)
@@ -242,8 +240,15 @@ def result_by_ministry(request):
                 Ministry.objects.get(ministry_name=data_ministry_name, series_of_class=data_series_of_class),
                 'NHI_score_ratio')
             dict_stat['number_of_applicants'] = len(dict_list_test)
-            dict_stat['competition_rate_overall'] = Decimal(dict_stat['ministry_quota']/dict_stat['number_of_applicants'])
-            dict_stat['competition_rate_1st'] = Decimal(UserProfile.objects.filter(prefer_1st=data_ministry_name).count()/dict_stat['number_of_applicants'])
+            # Exception Handling
+            if dict_stat['ministry_quota'] == 0:
+                dict_stat['competition_rate_overall'] = 0
+            else:
+                dict_stat['competition_rate_overall'] = Decimal(dict_stat['number_of_applicants']/dict_stat['ministry_quota'])
+            if UserProfile.objects.filter(prefer_1st=data_ministry_name).count() == 0:
+                dict_stat['competition_rate_1st'] = 0
+            else:
+                dict_stat['competition_rate_1st'] = Decimal(dict_stat['number_of_applicants']/UserProfile.objects.filter(prefer_1st=data_ministry_name).count())
 
             print(dict_stat)
 
@@ -274,3 +279,28 @@ def simulate_overall_econ_admin(request):
     RequestConfig(request, paginate=False).configure(table)
 
     return render(request, 'applying/result3_econ.html', {'table' : table})
+
+# a view to show indivisual's applied ministry result
+
+@login_required
+def result_ministry_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('index')
+
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+
+    dict_stats_1st = result_ministry_stats(userprofile.prefer_1st, userprofile.series_of_class)
+    list_1st = result_ministry_applicants(userprofile.prefer_1st, userprofile.series_of_class)
+
+    dict_stats_2nd = result_ministry_stats(userprofile.prefer_2nd, userprofile.series_of_class)
+    list_2nd= result_ministry_applicants(userprofile.prefer_2nd, userprofile.series_of_class)
+
+    dict_stats_3rd = result_ministry_stats(userprofile.prefer_3rd, userprofile.series_of_class)
+    list_3rd = result_ministry_applicants(userprofile.prefer_3rd, userprofile.series_of_class)
+
+    return render(request, 'applying/result4.html', {'selecteduser': user, 'profile' : userprofile,
+                                                     'list1': list_1st, 'dict1': dict_stats_1st,
+                                                     'list2': list_2nd, 'dict2': dict_stats_2nd,
+                                                     'list3': list_3rd, 'dict3': dict_stats_3rd,})

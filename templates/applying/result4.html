@@ -1,0 +1,121 @@
+{% extends "applying/base_bootstrap.html" %}
+{% load render_table from django_tables2 %}
+{% block title_block %}
+    Result
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+{% endblock %}
+
+{% block body_block %}
+<br>
+<h2> {{ selecteduser.username }} 님의 지원부처별 결과</h2>
+<br>
+<div>
+    <br>
+    <h3> {{ dict1.name }} / {{ dict1.series_of_class }}</h3>
+    <ul>
+        <li>TO : {{ dict1.ministry_quota }}</li>
+        <li>2차반영비율(배수) : {{ dict1.second_exam_ratio }}</li>
+        <li>연수원반영비율(배수): {{ dict1.nhi_score_ratio }} </li>
+        <li>총 지원자 수(지망순위 무관) : {{ dict1.number_of_applicants }} </li>
+        <li>경쟁률(지망순위 무관) : {{ dict1.competition_rate_overall }} </li>
+        <li>경쟁률(1지망 한정) : {{ dict1.competition_rate_1st }}</li>
+    </ul>
+    <br>
+    <table class="table">
+        <tr>
+            <th>이름</th>
+            <th>성별</th>
+            <th>단순합산총점</th>
+            <th>단순합산순위</th>
+            <th>부처지망</th>
+            <th>부처별 기타점수</th>
+            <th>부처기준총점</th>
+            <th>부처기준순위</th>
+        </tr>
+    {% for user in list1 %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.total_score }}</td>
+            <td>{{ user.total_rank }}</td>
+            <td>{{ user.preference }}</td>
+            <td>{{ user.other_score }}</td>
+            <td>{{ user.ministry_score }}</td>
+            <td>{{ user.rank_by_ministry }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+    <h3> {{ dict2.name }} / {{ dict2.series_of_class }}</h3>
+    <ul>
+        <li>TO : {{ dict2.ministry_quota }}</li>
+        <li>2차반영비율(배수) : {{ dict2.second_exam_ratio }}</li>
+        <li>연수원반영비율(배수): {{ dict2.nhi_score_ratio }} </li>
+        <li>총 지원자 수(지망순위 무관) : {{ dict2.number_of_applicants }} </li>
+        <li>경쟁률(지망순위 무관) : {{ dict2.competition_rate_overall }} </li>
+        <li>경쟁률(1지망 한정) : {{ dict2.competition_rate_1st }}</li>
+    </ul>
+    <br>
+    <table class="table">
+        <tr>
+            <th>이름</th>
+            <th>성별</th>
+            <th>단순합산총점</th>
+            <th>단순합산순위</th>
+            <th>부처지망</th>
+            <th>부처별 기타점수</th>
+            <th>부처기준총점</th>
+            <th>부처기준순위</th>
+        </tr>
+    {% for user in list2 %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.total_score }}</td>
+            <td>{{ user.total_rank }}</td>
+            <td>{{ user.preference }}</td>
+            <td>{{ user.other_score }}</td>
+            <td>{{ user.ministry_score }}</td>
+            <td>{{ user.rank_by_ministry }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    <br>
+    <br>
+        <h3> {{ dict3.name }} / {{ dict3.series_of_class }}</h3>
+    <ul>
+        <li>TO : {{ dict3.ministry_quota }}</li>
+        <li>2차반영비율(배수) : {{ dict3.second_exam_ratio }}</li>
+        <li>연수원반영비율(배수): {{ dict3.nhi_score_ratio }} </li>
+        <li>총 지원자 수(지망순위 무관) : {{ dict3.number_of_applicants }} </li>
+        <li>경쟁률(지망순위 무관) : {{ dict3.competition_rate_overall }} </li>
+        <li>경쟁률(1지망 한정) : {{ dict3.competition_rate_1st }}</li>
+    </ul>
+    <br>
+    <table class="table">
+        <tr>
+            <th>이름</th>
+            <th>성별</th>
+            <th>단순합산총점</th>
+            <th>단순합산순위</th>
+            <th>부처지망</th>
+            <th>부처별 기타점수</th>
+            <th>부처기준총점</th>
+            <th>부처기준순위</th>
+        </tr>
+    {% for user in list3 %}
+        <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.gender }}</td>
+            <td>{{ user.total_score }}</td>
+            <td>{{ user.total_rank }}</td>
+            <td>{{ user.preference }}</td>
+            <td>{{ user.other_score }}</td>
+            <td>{{ user.ministry_score }}</td>
+            <td>{{ user.rank_by_ministry }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% endblock %}

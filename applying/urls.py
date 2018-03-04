@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^result2/', views.result_by_ministry, name='result2'),
     url(r'^result3_general/', views.simulate_overall_general_admin, name='result3_general'),
     url(r'^result3_econ/', views.simulate_overall_econ_admin, name='result3_econ'),
+    url(r'^result4/(?P<username>[\w\-]+)/$', views.result_ministry_user, name='result4'),
 ]

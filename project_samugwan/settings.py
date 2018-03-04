@@ -25,7 +25,7 @@ SECRET_KEY = 's+gi%95o746&@q+d5r5xz6#j9@(fsib4p7d=u^z0=m4k7#&ve&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://salmorunge.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ['http://Salmorunge.pythonanywhere.com', '127.0.0.1', 'salmorunge.pythonanywhere.com']
 
 
 # Application definition
