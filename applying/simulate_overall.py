@@ -14,7 +14,7 @@ def simple_overall_simulate(series):
     ministry_general_list = list(Ministry.objects.filter(series_of_class=series).values('ministry_name','ministry_quota'))
     for item in ministry_general_list:
         item['count'] = 0 # intended result :[{'ministry_name':name, 'ministry_quota':quota, 'count':0}, ...]
-    print(ministry_general_list)
+
 
     for samugwan in general_admin_list:
         first_ministry = next((item for item in ministry_general_list if item['ministry_name'] == samugwan['prefer_1st']))
@@ -68,7 +68,7 @@ def simple_overall_simulate(series):
             item['ministry_quota'] = Ministry.objects.filter(ministry_name = name[0],series_of_class=series).values_list('ministry_quota', flat=True).get()
         item['allocated_samugwan'] = []
         list_of_dict.append(item)
-        print(list_of_dict)
+
 
 # Allocating users
     for user in general_admin_list:

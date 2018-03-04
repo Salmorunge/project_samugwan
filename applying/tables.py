@@ -37,7 +37,7 @@ class AppliedDictionaryTable(tables.Table):
 class ApplyingSimulationTable(tables.Table):
     ministry_name_korean = tables.Column(verbose_name='부처명', attrs={'td':{'width': '25%'}})
     ministry_quota = tables.Column(verbose_name='TO')
-    allocated_samugwan = tables.Column(verbose_name='예상배정자(등수)')
+    allocated_samugwan = tables.Column(verbose_name='예상배정자(등수)',)
 
     def render_allocated_samugwan(self, value):
         string = ''

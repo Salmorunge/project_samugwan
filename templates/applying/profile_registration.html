@@ -13,8 +13,9 @@
     <form method="post" action="." enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
-    <input type="submit" value="Submit" />
+    <button type="submit" class="btn btn-default">제출</button>
     </form>
+    <br>
 
     <h2> 점수 등록을 하신 후엔 꼭 부처 지원을 해 주세요. </h2>
 {% endblock %}
