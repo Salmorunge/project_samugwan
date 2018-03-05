@@ -3,6 +3,7 @@ import applying.choices
 from operator import itemgetter
 from decimal import Decimal
 
+
 def result_ministry_applicants(ministry_name, series_of_class):
     applied_samugwan_list_test = getattr(
         Ministry.objects.get(ministry_name=ministry_name, series_of_class=series_of_class),
