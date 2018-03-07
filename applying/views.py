@@ -214,7 +214,14 @@ def result_by_ministry(request):
                 if value[0] == 'male':
                     dict_test['gender'] = '남성'
                 dict_test['total_score'] = value[1]
-                dict_test['total_rank'] = value[2]
+                # used to update user_rankings realtime
+                try:
+                    selected_user = User.objects.get(username=key)
+                    selected_rank = UserProfile.objects.get(user=selected_user).ranking
+                    dict_test['total_rank'] = selected_rank
+                except:
+                    dict_test['total_rank'] = 0
+
                 dict_test['preference'] = value[3]
                 dict_test['other_score'] = value[4]
                 dict_test['ministry_score'] = value[5]
@@ -240,17 +247,15 @@ def result_by_ministry(request):
                 Ministry.objects.get(ministry_name=data_ministry_name, series_of_class=data_series_of_class),
                 'NHI_score_ratio')
             dict_stat['number_of_applicants'] = len(dict_list_test)
+
             # Exception Handling
+            count = UserProfile.objects.filter(prefer_1st= data_ministry_name, series_of_class= data_series_of_class).count()
             if dict_stat['ministry_quota'] == 0:
                 dict_stat['competition_rate_overall'] = 0
-            else:
-                dict_stat['competition_rate_overall'] = Decimal(dict_stat['number_of_applicants']/dict_stat['ministry_quota'])
-            if UserProfile.objects.filter(prefer_1st=data_ministry_name).count() == 0:
                 dict_stat['competition_rate_1st'] = 0
             else:
-                dict_stat['competition_rate_1st'] = Decimal(dict_stat['number_of_applicants']/UserProfile.objects.filter(prefer_1st=data_ministry_name).count())
-
-            print(dict_stat)
+                dict_stat['competition_rate_overall'] = round(Decimal(dict_stat['number_of_applicants']/dict_stat['ministry_quota']),2)
+                dict_stat['competition_rate_1st'] = round(Decimal(count/dict_stat['ministry_quota']),2)
 
             # Render table
             table = ResultByMinistryTable(dict_list_test)

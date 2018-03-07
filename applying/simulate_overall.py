@@ -38,7 +38,7 @@ def simple_overall_simulate(series):
         # first, we have to convert samugwan['allocated_ministry'] into somewhat familiar. ex) 'MPVA' -> '국가보훈처'
         ministry_familiar = ''
         # exception handling
-        if samugwan['allocated_ministry'] == '잔여자':
+        if samugwan['allocated_ministry'] == 'SUR':
             ministry_familiar = '잔여자'
         else:
             for item in ministry_name_choices:
